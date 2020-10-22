@@ -1,11 +1,8 @@
 import tkinter
 import Attack
-#from tkinter import *
-#from PIL import ImageTk,Image
 
 # I learned GUI programming from different sites but mainly https://www.geeksforgeeks.org/python-gui-tkinter/ and questions answered in https://stackoverflow.com
 screen = tkinter.Tk()
-#img = ImageTk.PhotoImage(Image.open("dos.png"))
 screen.title("DOS Attack") #title of the GUI
 screen.geometry("900x720") #size of the window of the GUI
 screen.configure(bg="black") #the color of the background
