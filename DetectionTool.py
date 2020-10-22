@@ -52,6 +52,7 @@ def ServerCode(Host,Port,devices_dict):
             print("Number of connections from",IP_addr,":",IP_list[IP_addr])
             print("Potential DDoS Attack from:",IP_addr)
         if (IP_list[IP_addr]>=Threshold):
+            print("Number of connections from",IP_addr,":",IP_list[IP_addr])            
             print("Confirmed DDoS attack from ",IP_addr)
             if (IP_addr in devices_dict) or (IP_addr =='127.0.0.1'): #The other condition is for testing purposes -- you probably won't attack yourself
                 print("Attacker's IP is from within the network")
