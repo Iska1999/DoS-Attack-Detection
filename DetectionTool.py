@@ -48,7 +48,7 @@ def ServerCode(Host,Port,devices_dict):
         else:
             print("New connection from",IP_addr)
             IP_list[IP_addr]=1 #new entry, only 1 hit
-        if (IP_list[IP_addr]>=Alert): #Alert is only used to bring attention to a potential attack
+        if ((IP_list[IP_addr]>=Alert) and (IP_list[IP_addr]<Threshold) ): #Alert is only used to bring attention to a potential attack
             print("Number of connections from",IP_addr,":",IP_list[IP_addr])
             print("Potential DDoS Attack from:",IP_addr)
         if (IP_list[IP_addr]>=Threshold):
@@ -61,8 +61,7 @@ def ServerCode(Host,Port,devices_dict):
         if (time.time()-seconds>=5):
             seconds=time.time()
             print("Flushing recent IP connections list...")
-            IP_list.clear()
-        
+            IP_list.clear()       
 Host = '127.0.0.1'  
 Port = 80 #In this case we attack the HTTP server
 devices_dict={}       
