@@ -27,7 +27,7 @@ def DeviceScan(target_ip):
     for device in devices:
         print("{:16}    {}".format(device['ip'], device['mac']))
     return devices_dict    
-def ServerCode(Host,Port,devices_dict):
+def ServerCode(Host,Port,devices_dict): 
     #The dictionary idea was inspired by :https://www.tutorialspoint.com/python_penetration_testing/python_penetration_testing_dos_and_ddos_attack.htm
     #Two thresholds (alert and threshold) was my idea, The values are arbitrary
     IP_list = {} #Dictionary with recent IPs.Takes IP as key and returns number of connections (hit) as value
@@ -35,7 +35,7 @@ def ServerCode(Host,Port,devices_dict):
     Threshold = 35
     #I learned socket programming basics from https://realpython.com/python-sockets/
     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-    s.bind(('', Port))
+    s.bind((Host, Port))
     print('Connection successful!')
     seconds=time.time()
     while True:
@@ -54,7 +54,7 @@ def ServerCode(Host,Port,devices_dict):
         if (IP_list[IP_addr]>=Threshold):
             print("Number of connections from",IP_addr,":",IP_list[IP_addr])            
             print("Confirmed DDoS attack from ",IP_addr)
-            if (IP_addr in devices_dict) or (IP_addr =='127.0.0.1'): #The other condition is for testing purposes -- you probably won't attack yourself
+            if (IP_addr in devices_dict) or (IP_addr == Host): #The other condition is for testing purposes -- you probably won't attack yourself
                 print("Attacker's IP is from within the network")
             #return
         #I decided to flush the recent IPs every x (in this case 5) seconds since 35 connections for a day or week don't account for a DDoS. 
@@ -62,14 +62,9 @@ def ServerCode(Host,Port,devices_dict):
         if (time.time()-seconds>=5):
             seconds=time.time()
             print("Flushing recent IP connections list...")
-            IP_list.clear()       
-Host = '127.0.0.1'  
+            IP_list.clear()         
 Port = 80 #In this case we attack the HTTP server
-devices_dict={}       
-devices_dict=DeviceScan("192.168.1.1/24")
 #I decided to do a network scan to find all IPs on my network
 #Upon detecting a DDos attack, I compare the attacker IP with the devices in my network to see if the IP is from within the network
 #Yes, the IP could be spoofed but this at least provides a first step in identifying and tracking the attacker
 #We could then compare MAC addresses of the attacker and the IP of the device in the network, for example.
-ServerCode(Host,Port,devices_dict)
-
